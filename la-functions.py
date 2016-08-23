@@ -24,28 +24,10 @@ def scalarMultiply(factor, vector):
 
 print(scalarMultiply(7.41,[1.671,-1.012,-0.318]))
 
-
-
 class Vector(object):
 
     def __init__(self, coordinates):
         self.coordinates = coordinates
-
-''' Udacity __init__ code
-        try:
-            if not coordinates:
-                raise ValueError
-            self.coordinates = tuple(coordinates)
-            self.dimension = len(coordinates)
-
-        except ValueError:
-            raise ValueError('The coordinates must be nonempty')
-
-        except TypeError:
-            raise TypeError('The coordinates must be an iterable')
-'''
-
-# Udacity code
 
     def plus(self, v):
         new_coordinates = [x+y for x,y in zip(self.coordinates, v.coordinates)]
@@ -70,15 +52,11 @@ class Vector(object):
         new_coordinates = [x*(1./self.magnitude()) for x in self.coordinates]
         return Vector(new_coordinates)
 
-''' udacity code for normalization
-        try:
-            magnitude = self.magnitude()
-            return self.times_scalar(1./magnitude)
-
-        except ZeroDivisionError:
-            raise Exception('Cannot normalise the zero vector')   
-'''
-        
+    def dot_product(self, v):
+        numerator = sum([x*y for x,y in zip(self.coordinates, v.coordinates)])
+        denominator = self.magnitude()*v.magnitude()
+        return numerator/denominator
+    
     def __len__(self):
         return(len(self.coordinates))
     
@@ -114,4 +92,12 @@ print v.direction()
 
 v = Vector([1.996,3.108,-4.554])
 print v.direction()
+
+v = Vector([7.887,4.138])
+w = Vector([-8.802,6.776])
+print v.dot_product(w)
+
+v = Vector([-5.955,-4.904,-1.874])
+w = Vector([-4.496,-8.755,7.103])
+print v.dot_product(w)
 
