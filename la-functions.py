@@ -1,7 +1,5 @@
 import math
 
-# my initial code
-
 def addVector(first_v, second_v):
     result_x = float(first_v[0]) + float(second_v[0])
     result_y = float(first_v[1]) + float(second_v[1])
@@ -41,26 +39,39 @@ class Vector(object):
         new_coordinates = [c*x for x in self.coordinates]
         return Vector(new_coordinates)
 
-# my code
-
     def magnitude(self):
         coordinates_squared = [x**2 for x in self.coordinates]
         return math.sqrt(sum(coordinates_squared))
 
     def direction(self):
-
-        new_coordinates = [x*(1./self.magnitude()) for x in self.coordinates]
-        return Vector(new_coordinates)
+        try:
+            new_coordinates = [x*(1./self.magnitude()) for x in self.coordinates]
+            return Vector(new_coordinates)
+        except:
+            print "Can't divide by 0"
 
     def dot_product(self, v):
-        numerator = sum([x*y for x,y in zip(self.coordinates, v.coordinates)])
-        denominator = self.magnitude()*v.magnitude()
-        return numerator/denominator
+        try:
+            numerator = sum([x*y for x,y in zip(self.coordinates, v.coordinates)])
+            # denominator = self.magnitude()*v.magnitude()
+            return numerator # /denominator
+        except:
+            print "Can't divide by 0"
+
+    def angle(self, v, deg=False):
+        try:
+            thetaRadians = math.acos(self.dot_product(v)/(self.magnitude()*v.magnitude()))
+            thetaDegrees = thetaRadians * (180/(math.pi))
+            if deg == False:
+                return thetaRadians
+            else:
+                return thetaDegrees
+        except:
+            print "Can't divide by 0"
+
     
     def __len__(self):
         return(len(self.coordinates))
-    
-# udacity code
 
     def __str__(self):
         return 'Vector:{}'.format(self.coordinates)
@@ -101,3 +112,10 @@ v = Vector([-5.955,-4.904,-1.874])
 w = Vector([-4.496,-8.755,7.103])
 print v.dot_product(w)
 
+v = Vector([3.183,-7.627])
+w = Vector([-2.668,5.319])
+print v.angle(w)
+
+v = Vector([7.35,0.221,5.188])
+w = Vector([2.751,8.259,3.985])
+print v.angle(w,deg=True)
